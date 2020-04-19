@@ -15,7 +15,7 @@ public class CensusAnalyser {
         this.checkValidCSVFile(csvFilePath);
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
@@ -26,8 +26,12 @@ public class CensusAnalyser {
                         CensusAnalyserException.ExceptionType.WRONG_FILE_HEADER);
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
         }
+        return 0;
     }
+
 
     public int loadIndiaStateData(String csvFilePath) throws CensusAnalyserException {
         this.checkValidCSVFile(csvFilePath);
@@ -44,7 +48,10 @@ public class CensusAnalyser {
                         CensusAnalyserException.ExceptionType.WRONG_FILE_HEADER);
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
         }
+        return 0;
     }
     private void checkValidCSVFile(String csvFilePath) throws CensusAnalyserException {
         if (!csvFilePath.contains(".csv"))

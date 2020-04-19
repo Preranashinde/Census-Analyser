@@ -9,6 +9,10 @@ public class CensusAnalyserException extends Exception {
         WRONG_FILE_HEADER,
         UNABLE_TO_PARSE;
     }
+    public CensusAnalyserException(String message, String name) {
+        super(message);
+        this.type = ExceptionType.valueOf(name);
+    }
 
     ExceptionType type;
 
