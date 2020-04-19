@@ -97,7 +97,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             censusAnalyser.loadIndiaStateData(STATE_WRONG_CSV_FILE_DELIMITER);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER, e.type);
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER,e.type);
         }
     }
     @Test
