@@ -12,11 +12,10 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        if (!csvFilePath.contains(".csv"))
-            throw new CensusAnalyserException("This is invalid file type", CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-            Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader,IndiaCensusCSV.class);
+        this.checkValidCSVFile(csvFilePath);
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
@@ -31,22 +30,25 @@ public class CensusAnalyser {
     }
 
     public int loadIndiaStateData(String csvFilePath) throws CensusAnalyserException {
-        if (!csvFilePath.contains(".csv"))
-            throw new CensusAnalyserException("This is invalid file type", CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-            Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader, IndiaCensusCSV.class);
+        this.checkValidCSVFile(csvFilePath);
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            IcsvBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             if (e.getMessage().contains("header!"))
-                throw  new CensusAnalyserException(e.getMessage(),
+                throw new CensusAnalyserException(e.getMessage(),
                         CensusAnalyserException.ExceptionType.WRONG_FILE_HEADER);
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER);
         }
+    }
+    private void checkValidCSVFile(String csvFilePath) throws CensusAnalyserException {
+        if (!csvFilePath.contains(".csv"))
+            throw new CensusAnalyserException("This is invalid file type", CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 
     private <T> int getCount(Iterator<T> iterator) {
