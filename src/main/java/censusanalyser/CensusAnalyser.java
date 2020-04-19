@@ -41,6 +41,7 @@ public class CensusAnalyser {
                     CensusAnalyserException.ExceptionType.WRONG_FILE_DELIMITER);
         }
     }
+
     public int loadIndiaStateData(String csvFilePath) throws CensusAnalyserException {
         if (!csvFilePath.contains(".csv"))
             throw new CensusAnalyserException("This is invalid file type", CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
