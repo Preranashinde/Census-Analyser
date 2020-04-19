@@ -66,7 +66,7 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE_HEADER, e.type);
         }
     }
-    @Test
+   /* @Test
     public void givenIndiaCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -76,8 +76,19 @@ public class CensusAnalyserTest {
             Assert.assertEquals(199812341, censusCSV[0].population);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
-        }
-    }
+        }*/
+   @Test
+   public void givenIndianCensusData_withRandomStateNames_ShouldReturnInDensitySortedOrder() {
+       try {
+           CensusAnalyser censusAnalyser = new CensusAnalyser();
+           String densityWiseSortedCensusData = censusAnalyser.getDensityWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+           System.out.println(densityWiseSortedCensusData);
+           IndiaCensusCSV[] censusCSV = new Gson().fromJson(densityWiseSortedCensusData, IndiaCensusCSV[].class);
+           Assert.assertEquals(1102, censusCSV[0].densityPerSqKm);
+       } catch (CensusAnalyserException e) {
+           Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+       }
+   }
     @Test
     public void givenIndiaStateCodeCSVFile_ShouldReturnsCorrectRecords() {
         try {
