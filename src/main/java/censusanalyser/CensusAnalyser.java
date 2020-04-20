@@ -70,6 +70,16 @@ public class CensusAnalyser<E> {
         String toJson = new Gson().toJson(csvFileList);
         return toJson;
     }
+    public  String getStateNameWiseSortedCensusData(Country country, String csvFilePath) throws CensusAnalyserException {
+        loadCensusData(country, csvFilePath);
+        if (csvFileList == null || csvFileList.size() == 0) {
+            throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.getStateName());
+        this.sort(censusComparator);
+        String toJson = new Gson().toJson(csvFileList);
+        return toJson;
+    }
     private void sort(Comparator<CensusDAO> censusComparator) {
         for (int i = 0; i < csvFileList.size(); i++) {
             for (int j = 0; j < csvFileList.size() - i - 1; j++) {

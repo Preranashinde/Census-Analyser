@@ -168,4 +168,17 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {
         }
     }
+    @Test
+    public void givenUSCensusCSVFile_withRandomStateNames_ShouldReturnInNameSortedOrder() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String stateNameWiseSortedCensusData = censusAnalyser.getStateNameWiseSortedCensusData(CensusAnalyser.Country.US, US_CENSUS_CSV_FILE_PATH);
+            System.out.println(stateNameWiseSortedCensusData);
+            USCensusCSV[] censusCSV = new Gson().fromJson(stateNameWiseSortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Alabama", censusCSV[0].getStateName());
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
