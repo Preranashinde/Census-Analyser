@@ -205,6 +205,33 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {
             e.printStackTrace();
         }
+    }
 
+
+    @Test
+    public void givenUSCensusCSVFile_WhenSortedPopulousDensity_ShouldReturnSortedList() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String stateDensityWiseSortedCensusData = censusAnalyser.getStateDensityWiseSortedCensusData(CensusAnalyser.Country.US, US_CENSUS_CSV_FILE_PATH);
+            System.out.println(stateDensityWiseSortedCensusData);
+            USCensusCSV[] censusCSV = new Gson().fromJson(stateDensityWiseSortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("0.46", censusCSV[0].getPopulationDensity());
+            Assert.assertEquals("92.32", censusCSV[50].getPopulationDensity());
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenIndiaCensusData_WhenSortedOnPopulousDensity_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String populousDensityWiseSortedCensusData = censusAnalyser.getPopulousDensityWiseSortedCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
+            System.out.println(populousDensityWiseSortedCensusData);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(populousDensityWiseSortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals(50, censusCSV[0].getDensityPerSqKm());
+            Assert.assertEquals(1102, censusCSV[28].getDensityPerSqKm());
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
     }
 }
