@@ -179,6 +179,32 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {
             e.printStackTrace();
         }
+    }
+    @Test
+    public void givenTheUSCensusCSVFile_WhenSortedOnStateCode_ShouldReturnSortedList() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String stateIDWiseSortedCensusData = censusAnalyser.getStateIDWiseSortedCensusData(CensusAnalyser.Country.US, US_CENSUS_CSV_FILE_PATH);
+            System.out.println(stateIDWiseSortedCensusData);
+            USCensusCSV[] censusCSV = new Gson().fromJson(stateIDWiseSortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("AK", censusCSV[0].getStateID());
+            Assert.assertEquals("WY",censusCSV[50].getStateID());
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenTheUSCensusCSVFile_WhenSortedOnArea_ShouldReturnSortedList(){
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String stateAreaWiseSortedCensusData = censusAnalyser.getStateAreaWiseSortedCensusData(CensusAnalyser.Country.US, US_CENSUS_CSV_FILE_PATH);
+            System.out.println(stateAreaWiseSortedCensusData);
+            USCensusCSV[] censusCSV = new Gson().fromJson(stateAreaWiseSortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("104655.80", censusCSV[0].getArea());
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
 
     }
 }

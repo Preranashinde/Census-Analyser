@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser<E> {
+
     public enum Country {
         INDIA, US;
     }
@@ -76,6 +77,26 @@ public class CensusAnalyser<E> {
             throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.getStateName());
+        this.sort(censusComparator);
+        String toJson = new Gson().toJson(csvFileList);
+        return toJson;
+    }
+    public String getStateIDWiseSortedCensusData(Country country, String csvFilePath) throws CensusAnalyserException {
+        loadCensusData(country, csvFilePath);
+        if (csvFileList == null || csvFileList.size() == 0) {
+            throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.getStateID());
+        this.sort(censusComparator);
+        String toJson = new Gson().toJson(csvFileList);
+        return toJson;
+    }
+    public String getStateAreaWiseSortedCensusData(Country country, String csvFilePath) throws CensusAnalyserException{
+        loadCensusData(country, csvFilePath);
+        if (csvFileList == null || csvFileList.size() == 0) {
+            throw new CensusAnalyserException("NO_CENSUS_DATA", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.getArea());
         this.sort(censusComparator);
         String toJson = new Gson().toJson(csvFileList);
         return toJson;
