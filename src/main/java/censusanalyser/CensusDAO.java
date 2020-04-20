@@ -1,13 +1,25 @@
 package censusanalyser;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class CensusDAO {
     private String srNo;
     private String state;
+    private String stateNameOfIndia;
     private int population;
     private int areaInSqKm;
     private int densityPerSqKm;
     private String stateCode;
     private String tin;
+    private String stateID;
+    private String stateName;
+    private String populationDensity;
+    private String USPopulation;
+    private String area;
+    private String housingUnits;
+    private String waterArea;
+    private String landArea;
+    private String housingDensity;
 
     public CensusDAO(IndiaCensusCSV indiaCensusCSV) {
         this.state = indiaCensusCSV.state;
@@ -18,10 +30,20 @@ public class CensusDAO {
 
     public CensusDAO(IndiaStateCodeCSV indiaStateCodeCSV) {
         this.srNo = indiaStateCodeCSV.srNo;
-        this.state = indiaStateCodeCSV.stateName;
+        this.stateNameOfIndia = indiaStateCodeCSV.stateNameOfIndia;
         this.stateCode = indiaStateCodeCSV.stateCode;
         this.tin = indiaStateCodeCSV.tin;
     }
+
+    public CensusDAO(USCensusCSV usCensusCSV) {
+        this.stateID = usCensusCSV.getStateID();
+        this.stateName = usCensusCSV.getStateName();
+        this.USPopulation = usCensusCSV.getUSPopulation();
+        this.area=usCensusCSV.getArea();
+        this.populationDensity=usCensusCSV.getPopulationDensity();
+        this.housingDensity = usCensusCSV.getHousingDensity();
+    }
+
     public String getSrNo() {
         return srNo;
     }
@@ -77,4 +99,76 @@ public class CensusDAO {
     public void setTin(String tin) {
         this.tin = tin;
     }
+    public String getStateID() {
+        return stateID;
+    }
+
+    public void setStateID(String stateID) {
+        this.stateID = stateID;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getPopulationDensity() {
+        return populationDensity;
+    }
+
+    public void setPopulationDensity(String populationDensity) {
+        this.populationDensity = populationDensity;
+    }
+
+    public String getUSPopulation() {
+        return USPopulation;
+    }
+
+    public void setPopulation(String USPopulation) {
+        this.USPopulation = USPopulation;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getHousingUnits() {
+        return housingUnits;
+    }
+
+    public void setHousingUnits(String housingUnits) {
+        this.housingUnits = housingUnits;
+    }
+
+    public String getWaterArea() {
+        return waterArea;
+    }
+
+    public void setWaterArea(String waterArea) {
+        this.waterArea = waterArea;
+    }
+
+    public String getLandArea() {
+        return landArea;
+    }
+
+    public void setLandArea(String landArea) {
+        this.landArea = landArea;
+    }
+
+    public String getHousingDensity() {
+        return housingDensity;
+    }
+
+    public void setHousingDensity(String housingDensity) {
+        this.housingDensity = housingDensity;
+    }
+
 }
